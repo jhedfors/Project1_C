@@ -23,11 +23,20 @@
    </div>
    <div class="row">
      <div class="col s12">
-       <p>Posts by Oliver</p>
-       <p>Count: 2</p>
-       <p>
-         William Arthur Ward: lajsdljlajsdllajsdlfjljasldflkjasdf
-       </p>
+       <p><?php echo $data[0]['alias'] ?></p>
+       <p>Count: <?php echo count($data) ?></p><br>
+       <?php
+          foreach ($data as $quote) {
+      ?>
+          <p>
+            <span = class='errors'><?php echo $quote['speaker'];?>: </span><?php echo $quote['quote'] ?>
+          </p>
+
+
+      <?php
+          }
+
+        ?>
        </div>
      </div>
    </div>

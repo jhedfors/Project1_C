@@ -3,7 +3,8 @@
 $route['default_controller'] = "/main";
 $route['main'] = "/main/login_reg_view";
 $route['quotes'] = "/main/quotes_view";
-$route['users/(:num)'] = "main/users/$1";
+$route['add'] = "/main/add_form";
+$route['users/(:num)'] = "main/user_view/$1";
 $route['logout'] = "/main/logout";
 $route['404_override'] = '';
 

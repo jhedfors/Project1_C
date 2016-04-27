@@ -7,38 +7,34 @@ INSERT INTO quotes (user_id, speaker, quote, created_at, modified_at) VALUES('1'
 INSERT INTO quotes (user_id, speaker, quote, created_at, modified_at) VALUES('1','Douasds Adams','So long, andasdfasdf all the fish!', NOW(),NOW());
 INSERT INTO quotes (user_id, speaker, quote, created_at, modified_at) VALUES('1','Douglas asdf','So as, andasdfthanks for all the fish!', NOW(),NOW());
 
--- all
-select quotes.user_id, users.name as user_name, speaker, quote, quotes.created_at  from quotes
-LEFT JOIN users ON users.id = quotes.user_id
-LEFT JOIN favorites on favorites.quote_id = quotes.id;
-
---  in favorites	
-select quotes.id as quote_id,quotes.user_id as poster_id, users.name as user_name, speaker, quote, quotes.created_at  from quotes
-LEFT JOIN users ON users.id = quotes.user_id
-LEFT JOIN favorites on favorites.quote_id = quotes.id
-WHERE favorites.user_id = 1 ;
-
 SELECT quote_id from favorites
 where user_id = 1;
 
 insert into favorites (user_id, quote_id) VALUES (1,2);
 
--- all but not in
-select quotes.id as quote_id,quotes.user_id as poster_id, users.name as user_name, speaker, quote, quotes.created_at  from quotes
+
+-- all quotes
+SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
 LEFT JOIN users ON users.id = quotes.user_id
-WHERE NOT quotes.id in(select quotes.id from quotes
+LEFT JOIN favorites on favorites.quote_id = quotes.id;
+
+--  in favorites	
+SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
 LEFT JOIN users ON users.id = quotes.user_id
 LEFT JOIN favorites on favorites.quote_id = quotes.id
-WHERE favorites.user_id = 1);
+WHERE favorites.user_id = 1 ;
+
+-- not in favorites
+SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
+LEFT JOIN users ON users.id = quotes.user_id
+LEFT JOIN favorites on favorites.quote_id = quotes.id
+WHERE NOT quotes.id in
+(SELECT quotes.id from quotes
+WHERE favorites.user_id=1);
 
 
-select quotes.id as quote_id,quotes.user_id, users.name as user_name, speaker, quote, quotes.created_at  from quotes
-LEFT JOIN users ON users.id = quotes.user_id
-LEFT JOIN favorites on favorites.quote_id = quotes.id
-WHERE NOT quotes.id in(select quotes.id from quotes
-LEFT JOIN users ON users.id = quotes.user_id
-LEFT JOIN favorites on favorites.quote_id = quotes.id
-WHERE favorites.user_id = 1);
+
+
 
  
 

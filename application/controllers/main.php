@@ -29,7 +29,7 @@ class Main extends CI_Controller {
 		$this->form_validation->set_rules("confirm_pw", "Confirmed Password", "trim|required|matches[password]");
 		$this->form_validation->set_rules("dob", "Date of Birth", "trim|required");
 		if($this->form_validation->run() === FALSE)		{
-			$this->session->set_quotesata('errors_reg',[validation_errors()]);
+			$this->session->set_userdata('errors_reg',[validation_errors()]);
 			$this->load->view('login_reg_view');
 		}
 		else{
@@ -76,13 +76,36 @@ class Main extends CI_Controller {
 		$data['favorites'] = $this->quotes_model->show_favorites($active_id); 		$this->load->view('quotes_view',['data'=>$data]);
 
 	}
-	public function users_view($id){
-		$data ='';
-		$this->load->view('users_view',['data'=>$data]);
+	public function user_view($id){
+		$data = $this->quotes_model->show_all_quotes_user($id);
+		$this->load->view('user_view',['data'=>$data]);
 	}
-	public function add(){
-		$post = $this->input->post();
-		$this->quotes_model->add_quote($post);
+	public function add_form(){
+		$this->form_validation->set_rules("speaker", "Quoted By", "trim|required|min_length[3]");
+		$this->form_validation->set_rules("quote", "Message", "trim|required|min_length[10]");
+		if($this->form_validation->run() === FALSE){
+			$this->session->set_userdata('errors_add',[validation_errors()]);
+			var_dump($this->session->userdata('errors_add'));
+			// die();
+			redirect('/quotes');
+			// die('val');
+			// $this->load->view('quotes_view');
+		}
+		else{
+			$post = $this->input->post();
+			$this->quotes_model->add_quote($post);
+			redirect('/quotes');
+		}
+
+	}
+	public function add_favorite($quote_id){
+		$active_id = $this->session->userdata('active_id');
+		$this->quotes_model->add_favorite($active_id,$quote_id);
+		redirect('/quotes');
+	}
+	public function remove_favorite($quote_id){
+		$active_id = $this->session->userdata('active_id');
+		$this->quotes_model->remove_favorite($active_id,$quote_id);
 		redirect('/quotes');
 	}
 	public function logout(){

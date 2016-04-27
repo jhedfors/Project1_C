@@ -30,37 +30,42 @@ class Quotes_model extends CI_Model {
 	}
 	public function show_non_favorites($active_id){
 		$query =
-			"SELECT quotes.id as quote_id, quotes.users_id, favorites. id as favorite_id, users.alias as alias, speaker, quote, quotes.created_at  from quotes
-			LEFT JOIN users ON users.id = quotes.users_id
-			LEFT JOIN favorites on favorites.quotes_id = quotes.id";
-		$favorites = $this->show_favorites($active_id);
-		$non_favorites = array();
-		$all_quotes =  $this->db->query($query)->result_array();
-		foreach ($all_quotes as $quote) {
-
-			for ($i=0; $i < count($all_quotes); $i++) {
-				$not_found=true;
-				if ($quote['favorite_id'] == $favorites['favorite_id']) {
-					$not_found=false;
-				}
-				if ($not_found) {
-					$not_favorite[] = $quote;
-				}
-			}
-			// var_dump($non_favorites);
-			// die();
-			return $non_favorites;
-		}
+			"SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
+			LEFT JOIN users ON users.id = quotes.user_id
+			LEFT JOIN favorites on favorites.quote_id = quotes.id
+			WHERE NOT quotes.id in
+			(SELECT quotes.id from quotes
+				WHERE favorites.user_id = ? )";
+		$values = [$active_id];
+		return $this->db->query($query,$active_id)->result_array();
 	}
-
-
 	public function show_favorites($active_id){
 		$query =
-			"SELECT quotes.id as quote_id, quotes.users_id, favorites. id as favorite_id, users.alias as alias, speaker, quote, quotes.created_at  from quotes
-			LEFT JOIN users ON users.id = quotes.users_id
-			LEFT JOIN favorites on favorites.quotes_id = quotes.id
-			WHERE favorites.users_id = ? ;";
+			"SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
+			LEFT JOIN users ON users.id = quotes.user_id
+			LEFT JOIN favorites on favorites.quote_id = quotes.id
+			WHERE favorites.user_id = ? ;";
 		$values = [$active_id];
+		return $this->db->query($query,$values)->result_array();
+	}
+	public function add_favorite($active_id,$quote_id){
+		$query =
+		"INSERT INTO favorites (user_id, quote_id) VALUES (?,?)";
+	$values = [$active_id,$quote_id];
+	$this->db->query($query,$values);
+	}
+	public function remove_favorite($active_id,$quote_id){
+		$query =
+			"DELETE FROM favorites WHERE user_id = ? AND quote_id =?";
+		$values = [$active_id,$quote_id];
+		$this->db->query($query,$values);
+	}
+	public function show_all_quotes_user($id){
+		$query =
+			"SELECT users.alias as alias, speaker, quote from quotes
+			LEFT JOIN users ON users.id = quotes.user_id
+			WHERE users.id = ?";
+		$values = [$id];
 		return $this->db->query($query,$values)->result_array();
 	}
 }

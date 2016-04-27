@@ -14,10 +14,7 @@
   <?php
     $alias = $this->session->userdata('alias');
     $active_id = $this->session->userdata('active_id');
-
-
    ?>
-
    <div class="row">
      <div class="col s12">
        <a href="/logout">Logout</a>
@@ -28,9 +25,9 @@
        <h4>Welcome, <?php echo $alias ?>!</h4>
        <div class="row">
          <div class="col s6">
-           <p>
+           <h5>
              Quotable Quotes
-           </p>
+           </h5>
            <?php
               foreach ($data['non_favorites'] as $non_favorite) {
                 ?>
@@ -39,26 +36,19 @@
                     <?php echo $non_favorite['speaker'] ?>: <?php echo $non_favorite['quote'] ?>
                   </p>
                   <p>
-                    Posted by <?php echo $non_favorite['alias'] ?>
-                    <a href="/main/remove_favorite/<?php echo $non_favorite['favorite_id'] ?>/<?php echo
-                     $active_id ?>">Remove from List</a>
-
+                    Posted by <a href="users/<?php echo $non_favorite['poster_id'] ?>"><?php echo $non_favorite['alias'] ?></a>
+                    <a href="/main/add_favorite/<?php echo $non_favorite['quote_id'] ?>">Add to My List</a>
                     </form>
                   </p>
-
                 </div>
-
                 <?php
               }
-
             ?>
-
-
          </div>
          <div class="col s6">
-           <p>
+           <h5>
              Your Favorites
-           </p>
+           </h5>
            <?php
               foreach ($data['favorites'] as $favorite) {
                 ?>
@@ -67,23 +57,18 @@
                     <?php echo $favorite['speaker'] ?>: <?php echo $favorite['quote'] ?>
                   </p>
                   <p>
-                    Posted by <?php echo $favorite['alias'] ?>
-                    <a href="/main/remove_favorite/<?php echo $favorite['favorite_id'] ?>/<?php echo
-                     $active_id ?>">Remove from List</a>
-
+                    Posted by <a href="/users/<?php echo $favorite['poster_id'] ?>"><?php echo $favorite['alias'] ?></a>
+                    <a href="/main/remove_favorite/<?php echo $favorite['quote_id'] ?>">Remove from List</a>
                     </form>
                   </p>
-
                 </div>
-
                 <?php
               }
-
             ?>
-           <p>
+           <h5>
              Quotable Quote:
-           </p>
-           <form action="/main/add" method="post">
+           </h5>
+           <form action="/main/add_form" method="post">
              <label for="speaker">Quoted By:</label>
              <input type="text" name="speaker">
              <label for="quote">Message:</label>
@@ -92,16 +77,27 @@
              <input type="submit" value="Submit">
            </form>
 
+
+         </div>
+         <div class="errors">
+           <?php
+           $errors = $this->session->userdata('errors_add');
+           if ($errors) {
+             foreach ($errors as $error) {
+               echo $error;
+             }
+             $this->session->unset_userdata('errors_add');
+           }
+
+           ?>
+
+
          </div>
 
        </div>
      </div>
    </div>
 
-              <?php
-              var_dump($data);
-
-               ?>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="/assets/js/materialize.js"></script>
