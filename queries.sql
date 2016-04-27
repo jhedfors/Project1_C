@@ -10,22 +10,26 @@ INSERT INTO quotes (user_id, speaker, quote, created_at, modified_at) VALUES('1'
 SELECT quote_id from favorites
 where user_id = 1;
 
-insert into favorites (user_id, quote_id) VALUES (1,2);
 
 
 -- all quotes
-SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
+SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
 LEFT JOIN users ON users.id = quotes.user_id
 LEFT JOIN favorites on favorites.quote_id = quotes.id;
 
+-- all quotes by user
+SELECT users.alias as alias, speaker, quote from quotes
+LEFT JOIN users ON users.id = quotes.user_id
+WHERE users.id = 1;
+
 --  in favorites	
-SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
+SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
 LEFT JOIN users ON users.id = quotes.user_id
 LEFT JOIN favorites on favorites.quote_id = quotes.id
 WHERE favorites.user_id = 1 ;
 
 -- not in favorites
-SELECT quotes.id as quote_id, users.alias as alias, speaker, quote from quotes
+SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
 LEFT JOIN users ON users.id = quotes.user_id
 LEFT JOIN favorites on favorites.quote_id = quotes.id
 WHERE NOT quotes.id in
@@ -33,8 +37,13 @@ WHERE NOT quotes.id in
 WHERE favorites.user_id=1);
 
 
+select * from favorites;
 
+ -- add favorite
+insert into favorites (user_id, quote_id) VALUES (1,4);
 
+ -- delete
+ DELETE from favorites WHERE user_id = 1 AND quote_id = 4;
 
  
 
