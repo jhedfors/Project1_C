@@ -37,7 +37,7 @@
                   </p>
                   <p>
                     Posted by <a href="users/<?php echo $non_favorite['poster_id'] ?>"><?php echo $non_favorite['alias'] ?></a>
-                    <a href="/main/add_favorite/<?php echo $non_favorite['quote_id'] ?>">Add to My List</a>
+                    <a class='btn' href="/main/add_favorite/<?php echo $non_favorite['quote_id'] ?>">Add to My List</a>
                     </form>
                   </p>
                 </div>
@@ -57,8 +57,8 @@
                     <?php echo $favorite['speaker'] ?>: <?php echo $favorite['quote'] ?>
                   </p>
                   <p>
-                    Posted by <a href="/users/<?php echo $favorite['poster_id'] ?>"><?php echo $favorite['alias'] ?></a>
-                    <a href="/main/remove_favorite/<?php echo $favorite['quote_id'] ?>">Remove from List</a>
+                    Posted by <a  href="/users/<?php echo $favorite['poster_id'] ?>"><?php echo $favorite['alias'] ?></a>
+                    <a class='btn' href="/main/remove_favorite/<?php echo $favorite['quote_id'] ?>">Remove from List</a>
                     </form>
                   </p>
                 </div>
@@ -74,7 +74,7 @@
              <label for="quote">Message:</label>
              <textarea name="quote"></textarea>
              <input type="hidden" name="active_id" value="<?php echo $active_id ?>">
-             <input type="submit" value="Submit">
+             <input class='btn'  type="submit" value="Submit">
            </form>
 
 
