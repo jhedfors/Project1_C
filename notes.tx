@@ -1,0 +1,19 @@
+Features required:
+
+Login and Registration with validations. Logout feature.
+Display of quotes on Quotable Quotes and Favorites (specific per logged user) area. Favorites area should vary its contents per user.
+Adding of Quotes. Validation for empty entries should apply and should display error messages.
+Updating of Quotable quotes and Favorites contents upon clicking the Add Quote/Add to My List/Remove from My List options.
+Remove a quote from the Favorites area and moving the quote back to Quotable Quotes area.
+Individual user page which displays the quotes a particular user posted and the count of posts he/she made.
+You must be able to deploy your work to Amazon EC2 and provide the IP address or subdomain/domain name to where your work has been deployed. Please note that Heroku deployment is not honored.
+Submission Requirement: Your code, exported database file, a text file with the IP address or subdomain/domain name for the deployed work and short video demo link.
+
+Notes:
+
+No need to use ORM for this exercise.
+The wireframe is available for download here.
+Create a 2-3 video showing what you have built. On the video, show the functionality of the page you have built at localhost (not what was deployed). You may download a trial version of Jing, Snag-it or QuickTime for video creation. You may save it in Dropbox public folder and  copy the public link.
+To prevent other students from copying your work, please make sure your video demo is set to unlisted or with a password, and code is not saved on GitHub.
+To minimize score deduction, please make sure you upload the complete requirements (database file, video demo).
+If you are having trouble uploading files on the Exam App, please DO NOT unlock another exam. Please email the file to remote-instructors@codingdojo.com and CC your instructor.

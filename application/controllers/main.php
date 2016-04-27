@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pokes extends CI_Controller {
+class Main extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
-		$this->load->model('Pokes_model');
+		$this->load->model('quotes_model');
 		$this->load->library('session');
 	}
 	public function index()
@@ -18,7 +18,7 @@ class Pokes extends CI_Controller {
 			$this->load->view('login_reg_view');
 		}
 		else{
-			redirect('pokes');
+			redirect('quotes');
 		}
 	}
 	public function register(){
@@ -29,22 +29,22 @@ class Pokes extends CI_Controller {
 		$this->form_validation->set_rules("confirm_pw", "Confirmed Password", "trim|required|matches[password]");
 		$this->form_validation->set_rules("dob", "Date of Birth", "trim|required");
 		if($this->form_validation->run() === FALSE)		{
-			$this->session->set_userdata('errors_reg',[validation_errors()]);
+			$this->session->set_quotesata('errors_reg',[validation_errors()]);
 			$this->load->view('login_reg_view');
 		}
 		else{
 			$post = $this->input->post();
-			if($this->Pokes_model->register($post) ){
-				$record = $this->Pokes_model->show_by_email($post['email']);
+			if($this->quotes_model->register($post) ){
+				$record = $this->quotes_model->show_by_email($post['email']);
 				$this->session->set_userdata('active_id' ,$record['id']);
 				$this->session->set_userdata('alias' ,$record['alias']);
-				redirect('pokes');
+				redirect('quotes');
 			}
 			redirect('unanticipated_error');
 		}
 	}
 	public function check_preexisting_email($post_email){
-		$record = $this->Pokes_model->show_by_email($post_email);
+		$record = $this->quotes_model->show_by_email($post_email);
 		if($record){
 			$this->form_validation->set_message('check_preexisting_email', '%s is already in use');
 			return FALSE;
@@ -56,11 +56,11 @@ class Pokes extends CI_Controller {
 	public function check_credentials(){
 		$post = $this->input->post();
 		$record;
-		if ($this->Pokes_model->show_by_email($post['email']) == null) {
+		if ($this->quotes_model->show_by_email($post['email']) == null) {
 			$this->form_validation->set_message('check_credentials', 'Email/Password incorrect');
 			return FALSE;
 		}
-		$record = $this->Pokes_model->show_by_email($post['email']);
+		$record = $this->quotes_model->show_by_email($post['email']);
 		if($record['password'] != do_hash($post['password'])) {
 			$this->form_validation->set_message('check_credentials', 'Email/Password incorrect');
 			return FALSE;
@@ -69,21 +69,22 @@ class Pokes extends CI_Controller {
 		$this->session->set_userdata('alias' ,$record['alias']);
 		return TRUE;
 	}
-	public function pokes_view(){
+	public function quotes_view(){
 		$active_id = $this->session->userdata('active_id');
-		$data['pokes'] = $this->Pokes_model->show_pokes_by_id($active_id);
-		$data['all_users'] = $this->Pokes_model->index_users();
-		for ($i=0; $i < count($data['all_users']); $i++) {
-			$poke_count = $this->Pokes_model->show_poke_count_by_id($data['all_users'][$i]['id']);
-			$data['all_users'][$i]['pokes_recieved'] = $poke_count['pokes_recieved'];
-		}
-		$this->load->view('pokes_view',['data'=>$data]);
-	}
-	public function poke($pokee_id,$poker_id){
-		$this->Pokes_model->add_poke($pokee_id,$poker_id);
-		redirect('/pokes');
-	}
+		$data['non_favorites'] = $this->quotes_model->show_non_favorites($active_id);
 
+		$data['favorites'] = $this->quotes_model->show_favorites($active_id); 		$this->load->view('quotes_view',['data'=>$data]);
+
+	}
+	public function users_view($id){
+		$data ='';
+		$this->load->view('users_view',['data'=>$data]);
+	}
+	public function add(){
+		$post = $this->input->post();
+		$this->quotes_model->add_quote($post);
+		redirect('/quotes');
+	}
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('/');
