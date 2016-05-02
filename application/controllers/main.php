@@ -21,7 +21,22 @@ class Main extends CI_Controller {
 			redirect('quotes');
 		}
 	}
+	public function validation(){
+		$routing = [
+  'name'=>function($post_data){$this->form_validation->set_rules("name", "Name", "trim|required|min_length[1]");},
+	'email'=>function($post_data){		$this->form_validation->set_rules("email", "Email", "trim|required|min_length[3]|callback_check_preexisting_email");},
+	'alias'=>function($post_data){		$this->form_validation->set_rules("alias", "Alias", "trim|required|min_length[3]");},
+	'password'=>function($post_data){$this->form_validation->set_rules("password", "Password", "trim|required|min_length[8]");},
+	'confirm_pw'=>function($post_data){$this->form_validation->set_rules("confirm_pw", "Confirmed Password", "trim|required|matches[password]");},
+	'dob'=>function($post_data){$this->form_validation->set_rules("dob", "Date of Birth", "trim|required");},
+];
+$routing[$_POST['action']]($_POST);
+	}
+
+
 	public function register(){
+		var_dump($this->input->post());
+		die();
 		$this->form_validation->set_rules("name", "Name", "trim|required|min_length[1]");
 		$this->form_validation->set_rules("email", "Email", "trim|required|min_length[3]|callback_check_preexisting_email");
 		$this->form_validation->set_rules("alias", "Alias", "trim|required|min_length[3]");
