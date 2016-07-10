@@ -37,7 +37,7 @@
                   </p>
                   <p>
                     Posted by <a href="users/<?php echo $non_favorite['poster_id'] ?>"><?php echo $non_favorite['alias'] ?></a>
-                    <a class='btn' href="/main/add_favorite/<?php echo $non_favorite['quote_id'] ?>">Add to My List</a>
+                    <a class='btn' href="/quotes/add_favorite/<?php echo $non_favorite['quote_id'] ?>">Add to My List</a>
                     </form>
                   </p>
                 </div>
@@ -58,7 +58,7 @@
                   </p>
                   <p>
                     Posted by <a  href="/users/<?php echo $favorite['poster_id'] ?>"><?php echo $favorite['alias'] ?></a>
-                    <a class='btn' href="/main/remove_favorite/<?php echo $favorite['quote_id'] ?>">Remove from List</a>
+                    <a class='btn' href="/quotes/remove_favorite/<?php echo $favorite['quote_id'] ?>">Remove from List</a>
                     </form>
                   </p>
                 </div>
@@ -68,7 +68,7 @@
            <h5>
              Quotable Quote:
            </h5>
-           <form action="/main/add_form" method="post">
+           <form action="/quotes/add_form" method="post">
              <label for="speaker">Quoted By:</label>
              <input type="text" name="speaker">
              <label for="quote">Message:</label>

@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$route['default_controller'] = "/main";
-$route['main'] = "/main/login_reg_view";
-$route['quotes'] = "/main/quotes_view";
-$route['add'] = "/main/add_form";
-$route['users/(:num)'] = "main/user_view/$1";
-$route['logout'] = "/main/logout";
+$route['default_controller'] = "/users";
+$route['main'] = "/users/login_reg_view";
+$route['quotes'] = "/quotes/quotes_view";
+$route['add'] = "/quotes/add_form";
+$route['users/(:num)'] = "quotes/user_view/$1";
+$route['logout'] = "/users/logout";
 $route['404_override'] = '';
 
 
