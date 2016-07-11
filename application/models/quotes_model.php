@@ -12,11 +12,13 @@ class Quotes_model extends CI_Model {
 	}
 	public function show_non_favorites($active_id){
 		$query =
-			"SELECT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
+			"SELECT DISTINCT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes
 			LEFT JOIN users ON users.id = quotes.user_id
 			LEFT JOIN favorites on favorites.quote_id = quotes.id
 			WHERE NOT quotes.id in
 			(SELECT quotes.id from quotes
+				LEFT JOIN users ON users.id = quotes.user_id
+				LEFT JOIN favorites on favorites.quote_id = quotes.id
 				WHERE favorites.user_id = ? )";
 		$values = [$active_id];
 		return $this->db->query($query,$active_id)->result_array();
